@@ -9,8 +9,8 @@
  * @link       https://github.com/Stoyan0v
  * @since      1.0.0
  *
- * @package    Dummy_Data_Creator
- * @subpackage Dummy_Data_Creator/includes
+ * @package    Sample_Data
+ * @subpackage Sample_Data/includes
  */
 
 /**
@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Dummy_Data_Creator
- * @subpackage Dummy_Data_Creator/includes
+ * @package    Sample_Data
+ * @subpackage Sample_Data/includes
  * @author     Stanimir Stoyanov <stanimir@insideout.io>
  */
-class Dummy_Data_Creator {
+class Sample_Data {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class Dummy_Data_Creator {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Dummy_Data_Creator_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Sample_Data_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -72,7 +72,7 @@ class Dummy_Data_Creator {
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'dummy-data-creator';
+		$this->plugin_name = 'sample-data';
 
 		$this->load_dependencies();
 
@@ -83,10 +83,10 @@ class Dummy_Data_Creator {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Dummy_Data_Creator_Loader. Orchestrates the hooks of the plugin.
-	 * - Dummy_Data_Creator_i18n. Defines internationalization functionality.
-	 * - Dummy_Data_Creator_Admin. Defines all hooks for the admin area.
-	 * - Dummy_Data_Creator_Public. Defines all hooks for the public side of the site.
+	 * - Sample_Data_Loader. Orchestrates the hooks of the plugin.
+	 * - Sample_Data_i18n. Defines internationalization functionality.
+	 * - Sample_Data_Admin. Defines all hooks for the admin area.
+	 * - Sample_Data_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -101,13 +101,13 @@ class Dummy_Data_Creator {
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'cli/dummy-data-creator-cli.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'cli/sample-data-cli.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/dummy-data-posts-creator.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/sample-data-posts.php';
 
 		/** WP-CLI Commands. */
 		if ( class_exists( 'WP_CLI' ) ) {
-			WP_CLI::add_command( 'create data', new Dummy_Data_Creator_Cli() );
+			WP_CLI::add_command( 'create data', new Sample_Data_Cli() );
 		}
 
 	}

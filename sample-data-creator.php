@@ -10,10 +10,10 @@
  *
  * @link              https://github.com/Stoyan0v
  * @since             1.0.0
- * @package           Dummy_Data_Creator
+ * @package           Sample_Data
  *
  * @wordpress-plugin
- * Plugin Name:       Dummy Data Creator
+ * Plugin Name:       WordLift Sample Data
  * Plugin URI:        https://wordlift.io/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
@@ -21,7 +21,7 @@
  * Author URI:        https://github.com/Stoyan0v
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       dummy-data-creator
+ * Text Domain:       sample-data
  * Domain Path:       /languages
  */
 
@@ -39,30 +39,30 @@ define( 'PLUGIN_NAME_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-dummy-data-creator-activator.php
+ * This action is documented in includes/class-sample-data-activator.php
  */
-function activate_dummy_data_creator() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-dummy-data-creator-activator.php';
-	Dummy_Data_Creator_Activator::activate();
+function activate_sample_data() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-sample-data-activator.php';
+	Sample_Data_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-dummy-data-creator-deactivator.php
+ * This action is documented in includes/class-sample-data-deactivator.php
  */
-function deactivate_dummy_data_creator() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-dummy-data-creator-deactivator.php';
-	Dummy_Data_Creator_Deactivator::deactivate();
+function deactivate_sample_data() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-sample-data-deactivator.php';
+	Sample_Data_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_dummy_data_creator' );
-register_deactivation_hook( __FILE__, 'deactivate_dummy_data_creator' );
+register_activation_hook( __FILE__, 'activate_sample_data' );
+register_deactivation_hook( __FILE__, 'deactivate_sample_data' );
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-dummy-data-creator.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-sample-data.php';
 
 /**
  * Begins execution of the plugin.
@@ -73,9 +73,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-dummy-data-creator.php';
  *
  * @since    1.0.0
  */
-function run_dummy_data_creator() {
+function run_sample_data() {
 
-	$plugin = new Dummy_Data_Creator();
+	$plugin = new Sample_Data();
 
 }
-run_dummy_data_creator();
+run_sample_data();

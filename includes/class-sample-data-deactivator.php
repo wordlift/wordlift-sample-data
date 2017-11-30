@@ -6,8 +6,8 @@
  * @link       https://github.com/Stoyan0v
  * @since      1.0.0
  *
- * @package    Dummy_Data_Creator
- * @subpackage Dummy_Data_Creator/includes
+ * @package    Sample_Data
+ * @subpackage Sample_Data/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Dummy_Data_Creator
- * @subpackage Dummy_Data_Creator/includes
+ * @package    Sample_Data
+ * @subpackage Sample_Data/includes
  * @author     Stanimir Stoyanov <stanimir@insideout.io>
  */
-class Dummy_Data_Creator_Deactivator {
+class Sample_Data_Deactivator {
 
 	/**
 	 * Short Description. (use period)

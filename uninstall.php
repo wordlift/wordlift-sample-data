@@ -22,7 +22,7 @@
  * @link       https://github.com/Stoyan0v
  * @since      1.0.0
  *
- * @package    Dummy_Data_Creator
+ * @package    Sample_Data
  */
 
 // If uninstall not called from WordPress, then exit.

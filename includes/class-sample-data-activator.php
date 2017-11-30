@@ -6,8 +6,8 @@
  * @link       https://github.com/Stoyan0v
  * @since      1.0.0
  *
- * @package    Dummy_Data_Creator
- * @subpackage Dummy_Data_Creator/includes
+ * @package    Sample_Data
+ * @subpackage Sample_Data/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Dummy_Data_Creator
- * @subpackage Dummy_Data_Creator/includes
+ * @package    Sample_Data
+ * @subpackage Sample_Data/includes
  * @author     Stanimir Stoyanov <stanimir@insideout.io>
  */
-class Dummy_Data_Creator_Activator {
+class Sample_Data_Activator {
 
 	/**
 	 * Short Description. (use period)
