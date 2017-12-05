@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WP-CLI: wp create data
  *
@@ -25,42 +24,34 @@ class Sample_Data_Cli {
 	 *
 	 * ## OPTIONS
 	 *
-	 * [--items]
+	 * [--posts]
 	 * : Number of posts to create.
 	 *
-	 * [--forks]
-	 * : Number of separate process to run.
+	 * [--entities]
+	 * : Number of entities to create.
 	 */
 	public function __invoke( $args, $assoc_args ) {
-		// Get flags.
-		$items = \WP_CLI\Utils\get_flag_value( $assoc_args, 'items' );
-		$forks = \WP_CLI\Utils\get_flag_value( $assoc_args, 'forks' );
+		// Posts creation services.
+		$services = array(
+			'posts'    => 'Sample_Data_Posts_Generator', // The posts service.
+			'entities' => 'Sample_Data_Entities_Generator', // Entites service.
+		);
 
-		if ( function_exists( 'pcntl_fork' ) ) {
-			$pids_count   = 0;
-			$chunk        = $items / $forks; // Split the posts between forks.
-			$post_creator = new Sample_Data_Posts( $chunk );
+		foreach ( $services as $flag_name => $class ) {
 
-			for( $i = 0; $i < $forks; $i++ ) {
-				$pids[ $pids_count ] = pcntl_fork();
+			// Check whether the post type has to be imported.
+			$flag = \WP_CLI\Utils\get_flag_value( $assoc_args, $flag_name );
 
-				if( $pids[ $pids_count ] ) {
-					$pids_count++;
-				} else {
-					$post_creator->generate();
-					exit();
-				}
+			// Bail if the post type flag isn't set.
+			if ( empty( $flag ) ) {
+				continue;
 			}
 
-			for( $i = 0; $i < $pids_count; $i++) {
-				pcntl_waitpid( $pids[ $i ], $status, WUNTRACED );
-			}
-		} else {
-			WP_CLI::success( 'PCNTL functions not available on this PHP installation. Proceed with regular import.' );
-			$post_creator = new Sample_Data_Posts( $chunk );
-			$post_creator->generate();
+			 // Init the service.
+			$service = new $class( $flag );
+
+			// Generate posts/entities.
+			$service->generate();
 		}
-
-		WP_CLI::success( 'Posts have been imported' );
 	}
 }

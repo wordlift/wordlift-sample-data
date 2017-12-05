@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -96,14 +95,15 @@ class Sample_Data {
 	 */
 	private function load_dependencies() {
 
-
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'cli/sample-data-cli.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/sample-data-posts.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/generators/sample-data-generator.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/generators/sample-data-posts-generator.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/generators/sample-data-entities-generator.php';
 
 		/** WP-CLI Commands. */
 		if ( class_exists( 'WP_CLI' ) ) {
