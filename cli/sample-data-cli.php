@@ -24,34 +24,64 @@ class Sample_Data_Cli {
 	 *
 	 * ## OPTIONS
 	 *
-	 * [--posts]
+	 * <type>
+	 * : The type of the posts that should be created.
+	 *
+	 * <count>
 	 * : Number of posts to create.
 	 *
-	 * [--entities]
-	 * : Number of entities to create.
+	 * [--forks]
+	 * : Number of separate process to run.
 	 */
 	public function __invoke( $args, $assoc_args ) {
-		// Posts creation services.
-		$services = array(
-			'posts'    => 'Sample_Data_Posts_Generator', // The posts service.
-			'entities' => 'Sample_Data_Entities_Generator', // Entites service.
-		);
+		// Get the command params
+		$forks = \WP_CLI\Utils\get_flag_value( $assoc_args, 'forks' );
 
-		foreach ( $services as $flag_name => $class ) {
+		switch ( $args[0] ) {
+			case 'post':
+				$service = new Sample_Data_Posts_Generator();
+				break;
 
-			// Check whether the post type has to be imported.
-			$flag = \WP_CLI\Utils\get_flag_value( $assoc_args, $flag_name );
+			case 'entity':
+				$service = new Sample_Data_Entities_Generator();
+				break;
+		}
 
-			// Bail if the post type flag isn't set.
-			if ( empty( $flag ) ) {
-				continue;
+		// Start regular import if the command is run without forks param
+		// Or if the `pcntl` extension is missing for the current php configuration.
+		if (
+			! function_exists( 'pcntl_fork' ) ||
+			empty( $forks )
+		) {
+			$service->generate( $args[1] );
+			WP_CLI::success( 'Posts creation completed' );
+			exit;
+		}
+
+		$chunk = $args[1] / $forks;
+
+		for( $i = 0; $i <= $forks; $i++ ) {
+			$pid = pcntl_fork();
+
+			if ( $pid == -1 ) { //fork failed. May be extreme OOM condition.
+				die( 'pcntl_fork failed' );
+			} elseif( $pid ) { //parent process.
+				$child_pids[] = $pid;
+			} else {  //child process.
+				$service->generate( $chunk );
+				exit();
 			}
+		}
 
-			 // Init the service.
-			$service = new $class( $flag );
+		while ( ! empty( $child_pids ) ) { // wait for all children to complete
+			foreach ( $child_pids as $key => $pid ) {
+				$status = null;
+				$res = pcntl_waitpid( $pid, $status, WNOHANG );
 
-			// Generate posts/entities.
-			$service->generate();
+				if ( $res == -1 || $res > 0 ) {   //if the process has already exited
+					unset( $child_pids[ $key ] );
+				}
+			}
 		}
 	}
 }

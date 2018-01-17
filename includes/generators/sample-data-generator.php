@@ -15,41 +15,21 @@
 abstract class Sample_Data_Generator {
 
 	/**
-	 * The number of posts/entities to created
-	 *
-	 * @since  1.0.0
-	 *
-	 * @access protected
-	 *
-	 * @var    int $limit Number of posts/entities to create.
-	 */
-	protected $limit;
-
-	/**
-	 * Sets the limit of posts/entites that have to be created.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int $limit The numbers of posts/entites to create
-	 */
-	public function __construct( $limit = 20000 ) {
-		$this->limit = $limit;
-	}
-
-	/**
 	 * Triggers the process of creating new posts/entities.
 	 * 
 	 * @since 1.0.0
 	 *
+	 * @param int $limit The numbers of posts/entites to create
+	 *
 	 * @return void
 	 */
-	public function generate() {
-		$progress = \WP_CLI\Utils\make_progress_bar( 'Creating', $this->limit );
+	public function generate( $limit ) {
+		$progress = \WP_CLI\Utils\make_progress_bar( 'Creating', $limit );
 
 		// Start the import.
-		for ( $i = 0; $i < $this->limit; $i++ ) {
+		for ( $i = 0; $i < $limit; $i++ ) {
 			// Insert the post.
-			$this->create_post();
+			$this->create_post( $i );
 
 			// Update the progress bar.
 			$progress->tick();
@@ -66,11 +46,11 @@ abstract class Sample_Data_Generator {
 	 *
 	 * @return int $id The newly created post/entity id.
 	 */
-	protected function create_post() {
+	protected function create_post( $index ) {
 		// Post/entity data.
 		$post_data = array(
 			'post_type'    => $this->post_type,
-			'post_title'   => $this->get_random_title(),
+			'post_title'   => $this->get_random_title( $index ),
 			'post_content' => $this->content,
 			'post_status'  => 'publish',
 			'post_author'  => 1,
@@ -94,11 +74,11 @@ abstract class Sample_Data_Generator {
 	 *
 	 * @return string Random title.
 	 */
-	public function get_random_title() {
+	public function get_random_title( $index ) {
 		// Get random key from titles array.
 		$key = array_rand( $this->titles );
 
 		// Return the title.
-		return $this->titles[ $key ];
+		return $this->titles[ $key ] . '-' . $index;
 	}
 }
